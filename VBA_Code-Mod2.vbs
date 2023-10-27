@@ -14,7 +14,7 @@ Dim total_stock_vol As Double
 total_stock_vol = 0
 
 'Track location for each ticker calculation
-Dim summary_table_row As Integer    
+Dim summary_table_row As Integer
 summary_table_row = 2
 
 'Set values for required columns to analyze
@@ -71,6 +71,22 @@ For Each ws In Worksheets
     ws.Range("K" & summary_table_row).Value = year_change / start_value
     ws.Range("L" & summary_table_row).Value = total_stock_vol
     
+    
+    'Add greatest increase, decrease and vol
+    greatest_increase = WorksheetFunction.Max(ws.Range("K1:K3500"))
+    greatest_decrease = WorksheetFunction.Min(ws.Range("K1:K3500"))
+    greatest_total_vol = WorksheetFunction.Max(ws.Range("L1:L3500"))
+    
+    'Print greatest values
+    ws.Range("P2").Value = greatest_increase
+    ws.Range("P3").Value = greatest_decrease
+    ws.Range("P4").Value = greatest_total_vol
+
+    'Lookup ticker value based up on P2-P4 data. enter into respective cells
+    ws.Range("O2").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.Range("P2").Value, ws.Range("K1:K3500"), 0))
+    ws.Range("O3").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.Range("P3").Value, ws.Range("K1:K3500"), 0))
+    ws.Range("O4").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.Range("P4").Value, ws.Range("L1:L3500"), 0))
+    
     'Add to summary table row, and push down by 1 cell
     summary_table_row = summary_table_row + 1
 
@@ -91,20 +107,6 @@ For Each ws In Worksheets
 Next i
 
 'moved greatest values outside of loop
-'Add greatest increase, decrease and vol
-greatest_increase = WorksheetFunction.Max(ws.Range("K1:K3500"))
-greatest_decrease = WorksheetFunction.Min(ws.Range("K1:K3500"))
-greatest_total_vol = WorksheetFunction.Max(ws.Range("L1:L3500"))
-
-'Print greatest values
-ws.Range("P2").Value = greatest_increase
-ws.Range("P3").Value = greatest_decrease
-ws.Range("P4").Value = greatest_total_vol
-
-'Lookup ticker value based up on P2-P4 data. enter into respective cells
-ws.Range("O2").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.Range("P2").Value, ws.Range("K1:K3500"), 0))
-ws.range("O3").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.range("P3").Value, ws.Range("K1:K3500"), 0))
-ws.range("O4").Value = WorksheetFunction.Index(ws.Range("I1:I3500"), WorksheetFunction.Match(ws.range("P4").Value, ws.Range("L1:L3500"), 0))
     
     'For loop - formatting red (-) & green (+)
     lastrow2 = ws.Cells(Rows.Count, 10).End(xlUp).Row
@@ -131,6 +133,13 @@ ws.Cells.EntireColumn.AutoFit
 Next ws
 
 End Sub
+
+
+
+
+
+
+
 
 
 
