@@ -1,5 +1,7 @@
 # Mod2_Challenge_Pete-Kline
+
 Instructions (from Mod2 homework file)
+
 -Create a script that loops through all the stocks for one year and outputs the following information:
 
 -The ticker symbol
