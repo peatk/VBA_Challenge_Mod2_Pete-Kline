@@ -1,4 +1,4 @@
-# Mod2_Challenge_Pete-Kline
+# VBA Script
 
 Instructions (from Mod2 homework file)
 
